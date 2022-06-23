@@ -1,2 +1,42 @@
-Token deployed to: 0x9A676e781A523b5d0C0e43731313A708CB607508
-Market deployed to: 0x0B306BF915C4d645ff596e518fAf3F9669b97016
+Token deployed to: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+Market deployed to: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+
+
+1. To use console.log import "hardhat/console.sol"
+2. To compile: npx hardhat compile
+2. To deploy:
+    - Create a async function
+    - After declaration call main() and handle the promise
+        main()
+        .then(() => process.exit(0))
+        .catch((error) => {
+           console.error(error);
+           process.exit(1);
+        });
+    - import 'hardhat' as hre
+    - To get signers address:
+        const accounts = await hre.ethers.getSigners();
+        accounts[0].address;
+    - Deploy:
+        const var = await hre.ethers.getContractFactory()
+        const contract = await var.deploy(constructor agrs)
+    - To interact with contract:
+        await contract.deployed()
+    -address of deployed contract
+        contract.address
+3. Create a local node:
+    npx hardhat node
+4. deploy on the node:
+    npx hardhat run --network localhost scripts/deploy.js
+5. To interact with the deployed contract on hardhat console:
+    - npx hardhat console
+    const MyContract = await ethers.getContractFactory("MyContract");
+    const contract = await MyContract.attach(
+        "0x..." // The deployed contract address
+    );
+
+    // Now you can call functions of the contract
+    await contract.doTheThing();
+6. const MyContract = await ethers.getContractFactory("MyContract");
+   const contract=MyContract.attach("0x9f1dC1c6c17E0ae35DA83F423ED3838277155854");
+   await contract.doTheThing();
