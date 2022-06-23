@@ -32,17 +32,7 @@ contract PredictionMarket {
 
     function placeBet(Side _side, uint256 amount) external {
         // require(electionFinished == false, "election is finished");
-        // IESDToken(tokenAddress).transferTo(address(this), amount);
-        // tokenAddress.delegatecall(abi.encodeWithSelector(IESDToken.transferTo.selector, address(this), amount));
         console.log("Placing bet: ", amount);
-        // (bool success, bytes memory data) = tokenAddress.delegatecall(
-        //     abi.encodeWithSignature(
-        //         "transferTo(address, uint256)",
-        //         address(this),
-        //         amount
-        //     )
-        // );
-        // require(success == false, "Transaction failed");
         IESDToken(tokenAddress).transferTo(msg.sender, amount);
         bets[_side] += amount;
         betsPerGambler[msg.sender][_side] += amount;
@@ -60,7 +50,7 @@ contract PredictionMarket {
         betsPerGambler[msg.sender][Side.Biden] = 0;
         betsPerGambler[msg.sender][Side.Trump] = 0;
         console.log("Transferring %s to %s: ", gain, msg.sender);
-        IESDToken(tokenAddress).transferTo(msg.sender, gain);
+        IESDToken(tokenAddress).simpleTransfer(msg.sender, gain);
     }
 
     function reportResult(Side _winner, Side _loser) external {
@@ -71,16 +61,8 @@ contract PredictionMarket {
     }
 }
 
-interface IESDToken {
-    function _transferFrom(
-        address _from,
-        address _to,
-        uint256 _amount
-    ) external;
+abstract contract IESDToken {
+    function simpleTransfer(address _to, uint256 _amount) external virtual;
 
-    function approveTx(address _spender, uint256 _amount) external;
-
-    function allow(address _from, address _to) external view;
-
-    function transferTo(address _to, uint256 _amount) external;
+    function transferTo(address _to, uint256 _amount) external virtual;
 }

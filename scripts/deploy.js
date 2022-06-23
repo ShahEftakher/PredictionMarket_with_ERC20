@@ -27,7 +27,7 @@ async function main() {
     abi: JSON.parse(PredictionMarket.interface.format('json'))
   };
 
-  console.log(data);
+  // console.log(data);
 
   fs.writeFileSync('frontend/src/PredictionMarket.json', JSON.stringify(data)); 
 
