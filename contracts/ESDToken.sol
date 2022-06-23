@@ -30,7 +30,8 @@ contract ESDToken is ERC20 {
     }
 
     //external transfer to a smart contract
-    //handles delegation and sender, reciever configuration
+    //handles delegation and sender, reciever configuration/
+    /** vulnerable function */
     function transferToContract(address _to, uint256 _amount) external {
         console.log("Transferring %s to %s", _amount, _to);
         console.log("Sender: ", msg.sender);
