@@ -40,7 +40,7 @@ contract ESDToken is ERC20 {
     //external transfer to accounts
     function transferToAccount(address _to, uint256 _amount) external {
         console.log("Transferring %s to %s", _amount, _to);
-        transfer(_to, _amount);
+        transfer(_to, toESDwei(_amount));
     }
 
 

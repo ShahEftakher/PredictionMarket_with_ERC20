@@ -33,7 +33,7 @@ contract PredictionMarket {
     function placeBet(Side _side, uint256 amount) external {
         // require(electionFinished == false, "election is finished");
         console.log("Placing bet: ", amount);
-        IESDToken(tokenAddress).transferTo(msg.sender, amount);
+        IESDToken(tokenAddress).transferToContract(msg.sender, amount);
         bets[_side] += amount;
         betsPerGambler[msg.sender][_side] += amount;
     }
@@ -50,7 +50,7 @@ contract PredictionMarket {
         betsPerGambler[msg.sender][Side.Biden] = 0;
         betsPerGambler[msg.sender][Side.Trump] = 0;
         console.log("Transferring %s to %s: ", gain, msg.sender);
-        IESDToken(tokenAddress).simpleTransfer(msg.sender, gain);
+        IESDToken(tokenAddress).transferToAccount(msg.sender, gain);
     }
 
     function reportResult(Side _winner, Side _loser) external {
@@ -62,7 +62,7 @@ contract PredictionMarket {
 }
 
 abstract contract IESDToken {
-    function simpleTransfer(address _to, uint256 _amount) external virtual;
+    function transferToAccount(address _to, uint256 _amount) external virtual;
 
-    function transferTo(address _to, uint256 _amount) external virtual;
+    function transferToContract(address _to, uint256 _amount) external virtual;
 }
