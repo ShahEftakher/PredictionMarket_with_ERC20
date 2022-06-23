@@ -20,6 +20,7 @@ contract ESDToken is ERC20 {
     }
 
     //can be a public function
+    //converts to 10^10
     function toESDwei(uint256 _ESD) internal view returns (uint256) {
         return _ESD * 10**decimals();
     }
@@ -28,12 +29,20 @@ contract ESDToken is ERC20 {
         _mint(msg.sender, toESDwei(_amount));
     }
 
-    //external tranfer fn
-    function transferTo(address _to, uint256 _amount) external {
+    //external transfer to a smart contract
+    //handles delegation and sender, reciever configuration
+    function transferToContract(address _to, uint256 _amount) external {
         console.log("Transferring %s to %s", _amount, _to);
         console.log("Sender: ", msg.sender);
-        _transfer(_to,msg.sender, toESDwei(_amount));
+        _transfer(_to, msg.sender, toESDwei(_amount));
     }
+
+    //external transfer to accounts
+    function transferToAccount(address _to, uint256 _amount) external {
+        console.log("Transferring %s to %s", _amount, _to);
+        transfer(_to, _amount);
+    }
+
 
     //external _transerFrom
     function _transferFrom(
@@ -42,11 +51,6 @@ contract ESDToken is ERC20 {
         uint256 _amount
     ) external {
         transferFrom(_from, _to, toESDwei(_amount));
-    }
-
-    //external approve
-    function approveTx(address _spender, uint256 _amount) external {
-        approve(_spender, toESDwei(_amount));
     }
 
     //override decimal
